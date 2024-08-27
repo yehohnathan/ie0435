@@ -1,6 +1,6 @@
 # ---------------- # Se importan las librerías necesarias # ----------------- #
 import pandas as pd                     # Manejo del CSV
-from SistemasAgrupamiento import SistemasAgrupamiento
+from Proyecto1.src.KMedias import SistemasAgrupamiento
 # Para evitar el error de detección de nucleos de mi computadora
 import os   # Evita la detección de nucleos
 os.environ['LOKY_MAX_CPU_COUNT'] = '2'
