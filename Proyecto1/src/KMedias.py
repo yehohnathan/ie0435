@@ -4,10 +4,6 @@ import matplotlib.pyplot as plt             # Graficas
 from sklearn.cluster import KMeans          # Agrupamiento K-Means
 from sklearn.preprocessing import StandardScaler    # Para elbow method
 
-# Para evitar el error de detección de nucleos de mi computadora
-import os   # Evita la detección de nucleos
-os.environ['LOKY_MAX_CPU_COUNT'] = '2'
-
 
 # --------------- # Clase para los Sistemas de Agrupamiento # --------------- #
 class KMedias:
@@ -38,7 +34,8 @@ class KMedias:
                 raise ValueError(f"La columna {col} no existe dentro del" +
                                  "DataFrame.")
 
-    def metodo_elbow(self, columnas):
+    def metodo_elbow(self, colum1, colum2, colum3):
+        columnas = [colum1, colum2, colum3]
         self.__verificador_columnas(columnas)
 
         # Se seleccionan las columnas que se quieren utilizar
@@ -62,9 +59,14 @@ class KMedias:
         plt.ylabel('Inercia')
         plt.show()
 
-    def grafica_KMeans(self, colum1, colum2, xlabel, ylabel, k_clusters):
+    def grafica_KMeans(self, colum1, colum2, k_clusters,
+                       xlabel="", ylabel=""):
         columnas = [colum1, colum2]
         self.__verificador_columnas(columnas)
+
+        # Si los labels no se proporcionan, usar los nombres de las columnas
+        xlabel = xlabel if xlabel else colum1
+        ylabel = ylabel if ylabel else colum2
 
         # Verifica que el número de clusters sea permitido
         if not isinstance(k_clusters, int):
@@ -92,10 +94,16 @@ class KMedias:
         plt.ylabel(str(ylabel))
         plt.show()
 
-    def grafica_KMeans_3D(self, colum1, colum2, colum3, xlabel, ylabel,
-                          zlabel, k_clusters):
+    def grafica_KMeans_3D(self, colum1, colum2, colum3, k_clusters,
+                          xlabel="", ylabel="", zlabel=""):
+
         columnas = [colum1, colum2, colum3]
         self.__verificador_columnas(columnas)
+
+        # Si los labels no se proporcionan, usar los nombres de las columnas
+        xlabel = xlabel if xlabel else colum1
+        ylabel = ylabel if ylabel else colum2
+        zlabel = zlabel if zlabel else colum3
 
         if not isinstance(k_clusters, int):
             raise ValueError("El número de clusters debe ser entero.")
