@@ -1,10 +1,7 @@
 # ---------------- # Se importan las librerías necesarias # ----------------- #
 import pandas as pd                         # Manejo del CSV
-import numpy as np                          # Uso de funciones matemáticas
 import matplotlib.pyplot as plt             # Graficas
-from mpl_toolkits.mplot3d import Axes3D     # Importar para gráficos en 3D
 from sklearn.cluster import KMeans          # Agrupamiento K-Means
-from sklearn.cluster import DBSCAN          # Agrupamiento DBSCAN
 from sklearn.preprocessing import StandardScaler    # Para elbow method
 
 # Para evitar el error de detección de nucleos de mi computadora
