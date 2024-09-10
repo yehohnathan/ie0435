@@ -130,3 +130,19 @@ class KMedias:
         ax.set_ylabel(str(ylabel))
         ax.set_zlabel(str(zlabel))
         plt.show()
+
+    def mostrar_clusters(self, colum1, colum2, colum3, k_clusters):
+        columnas = [colum1, colum2, colum3]
+        self.__verificador_columnas(columnas)
+
+        data = self.__dataframe[columnas]
+        kmeans = KMeans(n_clusters=k_clusters, random_state=42, n_init=10)
+        labels = kmeans.fit_predict(data)
+
+        # Calcular los centroides
+        centroids = kmeans.cluster_centers_
+        
+        # Mostrar cada cluster con su centroide y cantidad de elementos
+        for i in range(k_clusters):
+            cluster_points = data[labels == i]
+            print(f"Cluster {i+1}: Centroide = {centroids[i]} con {len(cluster_points)} elementos.")
