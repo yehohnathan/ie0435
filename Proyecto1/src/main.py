@@ -3,6 +3,11 @@ import pandas as pd                     # Manejo del CSV
 from KMedias import KMedias
 from DBSCAN_3D import DBSCAN_3D
 from MarkdownToCSV import MarkdownToCSV
+import matplotlib.pyplot as plt
+
+# Configurar backend interactivo para matplotlib
+plt.switch_backend('TkAgg')
+
 # Para evitar el error de detección de nucleos de mi computadora
 import os   # Evita la detección de nucleos
 os.environ['LOKY_MAX_CPU_COUNT'] = '2'
@@ -32,15 +37,18 @@ print(aresep_df)
 print("\n==================== Información del DataFrame: ====================")
 aresep_df.info()
 
+# --- # Prueba de DBSCAN terna # --- #
+dbscan = DBSCAN_3D()
+dbscan.setDataFrame(aresep_df)
+# Estimar un valor adecuado para eps
+dbscan.estimar_eps(['Abonados', 'DPIR', 'FPI'], min_samples=6)
+dbscan.grafica_DBSCAN_3D('Abonados', 'DPIR', 'FPI', eps = 1.23, min_samples=6)
+dbscan.mostrar_clusters('Abonados', 'DPIR', 'FPI', eps = 1.23, min_samples=6)
+
 # --- # Prueba de K-Means # --- #
 kmedias = KMedias()
 kmedias.setDataFrame(aresep_df)
 kmedias.metodo_elbow('Abonados', 'DPIR', 'FPI')
-kmedias.grafica_KMeans('Abonados', 'DPIR', k_clusters=4)
-kmedias.grafica_KMeans_3D('Abonados', 'DPIR', 'FPI', k_clusters=4,
+kmedias.grafica_KMeans_3D('Abonados', 'DPIR', 'FPI', k_clusters=3,
                           xlabel='Abonados por circuito')
-
-# --- # Prueba de DBSCAN terna # --- #
-dbscan = DBSCAN_3D()
-dbscan.setDataFrame(aresep_df)
-dbscan.grafica_DBSCAN_3D('Abonados', 'DPIR', 'FPI')
+kmedias.mostrar_clusters('Abonados', 'DPIR', 'FPI', k_clusters=3)
