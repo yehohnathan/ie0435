@@ -1,9 +1,9 @@
-# Makefile para la Proyecto 1: Sistemas de Agrupamiento
+# Makefile para el Proyecto 1: Sistemas de Agrupamiento
 
 # Detectar el sistema operativo
 ifeq ($(OS),Windows_NT)
     # Comandos para Windows
-    PYTHON = python
+    PYTHON = py  # Cambiar a 'py' en lugar de 'python'
     RM = del /Q
     RMDIR = rmdir /Q /S
 else
@@ -26,7 +26,7 @@ all: run
 run:
 	$(PYTHON) $(SRC_DIR)/$(MAIN_FILE)
 
-# Por algunon motivo no logra limpiar __pycache__
+# Limpiar __pycache__
 clean:
 	$(RM) $(SRC_DIR)/__pycache__/*.pyc
 	$(RMDIR) $(SRC_DIR)/__pycache__
