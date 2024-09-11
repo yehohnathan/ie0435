@@ -1,6 +1,7 @@
 # --------------------- # Clase solicitada a ChatGPT # ---------------------- #
 # ---------------- # Se importan las librerías necesarias # ----------------- #
 import pandas as pd
+from sklearn.preprocessing import MinMaxScaler
 
 
 # ------------ # Clase para convertir archivos markdown a CSV # ------------- #
@@ -73,3 +74,30 @@ class MarkdownToCSV:
         # Guarda el contenido como CSV y devuelve la ruta del
         # archivo CSV generado
         return self.save_csv()
+
+    # ------- # Método para normalizar las columnas seleccionadas # --------- #
+    def normalize_columns(self, csv_path):
+        # Verifica si el archivo proporcionado es un CSV
+        if not csv_path.endswith('.csv'):
+            print("El archivo no es un CSV. Proporcione un archivo CSV para"+
+                  " la normalización.")
+            return None
+
+        # Carga el archivo CSV
+        self.df = pd.read_csv(csv_path)
+
+        # Convertir las columnas a tipo numérico
+        self.df['Abonados'] = pd.to_numeric(self.df['Abonados'], 
+                                            errors='coerce')
+        self.df['DPIR'] = pd.to_numeric(self.df['DPIR'], errors='coerce')
+        self.df['FPI'] = pd.to_numeric(self.df['FPI'], errors='coerce')
+
+        # Normalizar las columnas usando MinMaxScaler para el rango [0, 1]
+        scaler = MinMaxScaler()
+        self.df[['Abonados', 'DPIR', 'FPI']] = scaler.fit_transform(self.df[['Abonados', 'DPIR', 'FPI']])
+
+        # Guardar el DataFrame normalizado con el nuevo nombre
+        output_csv = csv_path.replace(".csv", "_normalize.csv")
+        self.df.to_csv(output_csv, index=False)
+        print(f"CSV normalizado guardado en: {output_csv}")
+        return output_csv
